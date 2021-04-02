@@ -1,0 +1,45 @@
+{
+  "name": "credit-card-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_OPTIONS='--max-old-space-size=4096' NODE_ENV=development parcel -p 3000 src/index.html --no-cache",
+    "build": "cross-env NODE_OPTIONS='--max-old-space-size=4096' NODE_ENV=production parcel build src/index.html --no-cache --no-source-maps"
+  },
+  "browserslist": {
+    "production": [
+      "last 1 Chrome versions",
+      "last 1 Edge versions",
+      "last 1 Firefox versions",
+      "last 1 IE version",
+      "last 1 iOS versions",
+      "last 1 Opera versions",
+      "last 1 Safari versions",
+      "not IE_Mob 11",
+      "edge > 14",
+      "not op_mini all",
+      "not ie <= 10",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 Chrome versions",
+      "last 1 Firefox versions",
+      "last 1 Safari versions"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.1",
+    "@babel/preset-env": "^7.13.5",
+    "@babel/preset-react": "^7.12.13",
+    "cross-env": "^7.0.3",
+    "less": "^4.1.1",
+    "parcel-bundler": "^1.12.4"
+  },
+  "dependencies": {
+    "antd": "^4.12.3",
+    "axios": "^0.21.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-jss": "^10.5.1"
+  }
+}
