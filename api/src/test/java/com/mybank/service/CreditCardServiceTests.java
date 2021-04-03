@@ -28,31 +28,31 @@ public class CreditCardServiceTests {
 
 	@Test
 	public void givenNumberContainsLetter_WhenCheckLune_thenNotValid() {
-		String cardNumber = "ab45 4644 5404 5454 54";
+		String cardNumber = "ab45464454045454";
 		assertFalse(this.service.checkLuhn(cardNumber));
 	}
 
 	@Test
 	public void givenNumberLengthLessThan10_WhenCheckLune_thenNotValid() {
-		String cardNumber = "4745 4644";
+		String cardNumber = "1234";
 		assertFalse(this.service.checkLuhn(cardNumber));
 	}
 
 	@Test
 	public void givenNumberLengthGreaterThan19_WhenCheckLune_thenNotValid() {
-		String cardNumber = "4745 4644 5404 5457 7741";
+		String cardNumber = "47454644540454577741";
 		assertFalse(this.service.checkLuhn(cardNumber));
 	}
 
 	@Test
 	public void givenNumberNotValidLuhn_WhenCheckLune_thenReturnFalse() {
-		String cardNumber = "4745 4644 5404 545";
+		String cardNumber = "474546445404545";
 		assertFalse(this.service.checkLuhn(cardNumber));
 	}
 
 	@Test
 	public void givenNumberValidLuhn_WhenCheckLune_thenReturnTrue() {
-		String cardNumber = "4111 1111 1111 1111";
+		String cardNumber = "4111111111111111";
 		assertTrue(this.service.checkLuhn(cardNumber));
 	}
 

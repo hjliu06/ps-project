@@ -62,6 +62,7 @@ const AddCreditCard = (props) => {
       </div>
       <div className={classes.input}>
         <Input
+          placeholder={"Marie Dubois"}
           style={{ width: 300 }}
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -72,6 +73,7 @@ const AddCreditCard = (props) => {
       </div>
       <div className={classes.input}>
         <Input
+          placeholder={"1234 5678 1234 5678"}
           style={{ width: 300 }}
           value={cardNumber}
           onChange={(e) => setCardNumber(e.target.value)}

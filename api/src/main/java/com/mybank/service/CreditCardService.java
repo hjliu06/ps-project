@@ -49,11 +49,24 @@ public class CreditCardService {
 	@Transactional
 	public CreditCardDTO addCreditCard(CreditCardDTO dto) {
 		if (dto.getName() == null || dto.getName().isBlank()) {
-			throw new IllegalArgumentException("name can not be empty");
+			throw new IllegalArgumentException("Name can not be empty");
 		}
-		if (!this.checkLuhn(dto.getCardNumber())) {
-			throw new IllegalArgumentException("bad card number");
+		if (this.creditCardRepository.findByName(dto.getName()) != null) {
+			throw new IllegalArgumentException("Name already exists");
 		}
+
+		if (dto.getCardNumber() == null || dto.getCardNumber().isBlank()) {
+			throw new IllegalArgumentException("Card number can not be empty");
+		}
+		String cardNumber = dto.getCardNumber().replaceAll("\\s+", "");
+		if (this.creditCardRepository.findByCardNumber(cardNumber) != null) {
+			throw new IllegalArgumentException("Card number already exists");
+		}
+		if (!this.checkLuhn(cardNumber)) {
+			throw new IllegalArgumentException("Bad card number");
+		}
+		dto.setCardNumber(cardNumber);
+
 		if (dto.getBalance() == null) {
 			dto.setBalance(DEFAULT_BALANCE);
 		}
@@ -79,16 +92,13 @@ public class CreditCardService {
 	private CreditCard convertDTOToEntity(CreditCardDTO dto) {
 		CreditCard entity = new CreditCard();
 		entity.setName(dto.getName());
-		entity.setCardNumber(dto.getCardNumber().replaceAll("\\s+", ""));
+		entity.setCardNumber(dto.getCardNumber());
 		entity.setBalance(dto.getBalance());
 		entity.setLimit(dto.getLimit());
 		return entity;
 	}
 
-	protected boolean checkLuhn(String number) {
-		if (number == null)
-			return false;
-		String cardNumber = number.replaceAll("\\s+", "");
+	protected boolean checkLuhn(String cardNumber) {
 		int len = cardNumber.length();
 		if (!cardNumber.matches("[0-9]+") || len < 10 || len > 19 || cardNumber.startsWith("0")) {
 			return false;
