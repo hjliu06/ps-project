@@ -14,6 +14,9 @@ import com.mybank.repository.CreditCardRepository;
 @Service
 public class CreditCardService {
 
+	private static final Double DEFAULT_BALANCE = 0.00;
+	private static final Integer DEFAULT_LIMIT = 1000;
+
 	@Autowired
 	private CreditCardRepository creditCardRepository;
 
@@ -45,9 +48,19 @@ public class CreditCardService {
 	 */
 	@Transactional
 	public CreditCardDTO addCreditCard(CreditCardDTO dto) {
+		if (dto.getName() == null || dto.getName().isBlank()) {
+			throw new IllegalArgumentException("name can not be empty");
+		}
 		if (!this.checkLuhn(dto.getCardNumber())) {
 			throw new IllegalArgumentException("bad card number");
 		}
+		if (dto.getBalance() == null) {
+			dto.setBalance(DEFAULT_BALANCE);
+		}
+		if (dto.getLimit() == null) {
+			dto.setLimit(DEFAULT_LIMIT);
+		}
+
 		CreditCard entity = convertDTOToEntity(dto);
 		return convertEnityToDTO(this.creditCardRepository.save(entity));
 
@@ -73,6 +86,8 @@ public class CreditCardService {
 	}
 
 	protected boolean checkLuhn(String number) {
+		if (number == null)
+			return false;
 		String cardNumber = number.replaceAll("\\s+", "");
 		int len = cardNumber.length();
 		if (!cardNumber.matches("[0-9]+") || len < 10 || len > 19 || cardNumber.startsWith("0")) {
