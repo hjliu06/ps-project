@@ -8,6 +8,19 @@ public class CreditCardDTO {
 	private Double balance;
 	private Integer limit;
 
+	public CreditCardDTO() {
+		super();
+	}
+
+	public CreditCardDTO(Long id, String name, String cardNumber, Double balance, Integer limit) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.cardNumber = cardNumber;
+		this.balance = balance;
+		this.limit = limit;
+	}
+
 	public Long getId() {
 		return id;
 	}
