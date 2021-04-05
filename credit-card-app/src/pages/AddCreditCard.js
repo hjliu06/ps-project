@@ -76,7 +76,11 @@ const AddCreditCard = (props) => {
           placeholder={"1234 5678 1234 5678"}
           style={{ width: 300 }}
           value={cardNumber}
-          onChange={(e) => setCardNumber(e.target.value)}
+          onChange={(e) => {
+            if (/^[\d\s]*$/.test(e.target.value)) {
+              setCardNumber(e.target.value);
+            }
+          }}
         />
       </div>
       <div>Limit</div>

@@ -4,13 +4,36 @@ import { fetchCreditCards } from "../services/creditCardService";
 
 const ListCreditCard = ({ newCard }) => {
   const [data, setData] = useState([]);
+
+  const formatCardNumber = (cn) => {
+    let formattedNumber = "";
+    const len = cn.length;
+    for (let i = 0; i < len; i++) {
+      formattedNumber = formattedNumber + cn.charAt(i);
+      if ((i + 1) % 4 === 0 && i != len - 1) {
+        formattedNumber = formattedNumber + " ";
+      }
+    }
+    return formattedNumber;
+  };
+
   useEffect(() => {
-    fetchCreditCards().then((data) => setData(data));
+    fetchCreditCards().then((data) => {
+      setData(
+        data.map((e) => ({
+          ...e,
+          cardNumber: formatCardNumber(e.cardNumber),
+        }))
+      );
+    });
   }, []);
 
   useEffect(() => {
     if (newCard) {
-      setData([...data, newCard]);
+      setData([
+        ...data,
+        { ...newCard, cardNumber: formatCardNumber(newCard.cardNumber) },
+      ]);
     }
   }, [newCard]);
 
