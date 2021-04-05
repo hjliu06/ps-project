@@ -31,8 +31,8 @@ const ListCreditCard = ({ newCard }) => {
   useEffect(() => {
     if (newCard) {
       setData([
-        ...data,
         { ...newCard, cardNumber: formatCardNumber(newCard.cardNumber) },
+        ...data,
       ]);
     }
   }, [newCard]);
