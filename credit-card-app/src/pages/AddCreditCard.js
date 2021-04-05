@@ -20,13 +20,19 @@ const useStyles = createUseStyles({
 const AddCreditCard = (props) => {
   const classes = useStyles();
   const [name, setName] = useState("");
+  const [moreThan19Error, setMoreThan19Error] = useState(false);
+  const [lessThan10Error, setLessThan10Error] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
   const [limit, setLimit] = useState(0);
+
   const reset = () => {
     setName("");
     setCardNumber("");
     setLimit(0);
+    setMoreThan19Error(false);
+    setLessThan10Error(false);
   };
+
   const addCard = (name, cardNumber, limit) => {
     const balance = (
       (Math.random() < 0.5 ? -1 : 1) *
@@ -78,11 +84,32 @@ const AddCreditCard = (props) => {
           value={cardNumber}
           onChange={(e) => {
             if (/^[\d\s]*$/.test(e.target.value)) {
+              if (e.target.value.trim().replace(/\s+/g, "").length > 19) {
+                setMoreThan19Error(true);
+              } else {
+                setMoreThan19Error(false);
+              }
+              if (e.target.value.trim().replace(/\s+/g, "").length < 10) {
+                setLessThan10Error(true);
+              } else {
+                setLessThan10Error(false);
+              }
+
               setCardNumber(e.target.value);
             }
           }}
         />
       </div>
+      {moreThan19Error && (
+        <div style={{ color: "red", marginTop: -5 }}>
+          Max length of digits is 19
+        </div>
+      )}
+      {lessThan10Error && (
+        <div style={{ color: "red", marginTop: -5 }}>
+          Minimum length of digits is 10
+        </div>
+      )}
       <div>Limit</div>
       <div className={classes.input}>
         <Input
@@ -97,7 +124,7 @@ const AddCreditCard = (props) => {
       <Button
         className={classes.button}
         type="primary"
-        disabled={!name || !cardNumber}
+        disabled={!name || !cardNumber || moreThan19Error || lessThan10Error}
         onClick={() => addCard(name, cardNumber, limit)}
       >
         Add
